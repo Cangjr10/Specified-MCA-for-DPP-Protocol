@@ -215,7 +215,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 byte DataDownload[] = {0xF5, 0xFA, 0x02, 0x03, 0x00, 0x00, 0xFE, 0x0C};//能谱数据获取请求
 void CMainFrame::OnMcaDownload()
 {
-
 	// TODO: 在此添加命令处理程序代码
 	pControlView->UpdateData(TRUE);//获取更新信息
 	if (m_SCIModule.get_PortOpen())
@@ -227,7 +226,8 @@ void CMainFrame::OnMcaDownload()
 	pMCADoc = (CMCADoc*)GetActiveDocument();
 	pMCADoc->SetCommandFlag(S_Download);
 	//pMCADoc->SaveSpectrumWithTemperature(_T("E:\\"),_T("1"));
-	pMCADoc->SaveXMLFile();
+	//pMCADoc->SaveXMLFile();
+	//OnRestart();
 // 	CWaringDlg WarningDLG;
 // 	WarningDLG.DoModal();
 }
@@ -281,7 +281,12 @@ void CMainFrame::OnStart()
 	UINT32 interval = 0;
 	CControlView* pControlView_temp = pControlView;
 	pControlView_temp->UpdateData(TRUE);
-	interval = (pControlView_temp->m_nPickInterval)*3600*1000;
+	if (pControlView_temp->m_nPickInterval < 2)//最小2min
+	{
+		pControlView_temp->m_nPickInterval = 2;
+		pControlView_temp->UpdateData(FALSE);
+	}
+	interval = (pControlView_temp->m_nPickInterval)*60*1000;
 	SetTimer(1,interval,NULL);//定时存储能谱
 	
 }

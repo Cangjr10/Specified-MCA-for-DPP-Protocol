@@ -238,7 +238,7 @@ void CMCADoc::MSComm_Decode(COleSafeArray safearray_input)
 			if (IsMatchedFlag == FALSE && Decode_IsMatch(new_element,ACK_OK,sizeof(ACK_OK)))
 			{
 				CommandFlag = S_NULL; 
-				pFrame->Measure_SpectrumRequest();//初始能谱采集
+				//pFrame->Measure_SpectrumRequest();//初始能谱采集
 			}		
 			break;
 		case S_Pause:
@@ -344,7 +344,7 @@ void CMCADoc::MSComm_Decode(COleSafeArray safearray_input)
 					ByteStream_Spectrum.resize(0);//处理完数据将接收缓冲区清零
 					IsMatchedFlag = FALSE;
 					//获取温度之后进行数据存储
-					CString filepath=_T("D:\MonitorData/LiveData/");
+					CString filepath=_T("D:/MonitorData/LiveData/");
 					CTime CurrentTime;
 					CurrentTime=CTime::GetCurrentTime(); 
 					CString CurrentTime_str;
@@ -352,6 +352,8 @@ void CMCADoc::MSComm_Decode(COleSafeArray safearray_input)
 /*					FileCounter++;*/ 
 					SaveSpectrumWithTemperature(filepath,CurrentTime_str);
 					SaveXMLFile();
+					//每次定时完毕就清一次谱！
+					pFrame->Measure_Restart();
 					if (Spectrum_Active.GetMeasureTime() > 7*24*3600)//测量时间超过7天，清零
 					{
 						pFrame->Measure_Restart();
@@ -549,7 +551,7 @@ void CMCADoc::SaveXMLFile(void)
 	int NUMLINES = Dectetor_XML.size();//参数数目
 	//存储XML文件
 	//	CStdioFile myfile(lpszPathName,CFile::modeCreate|CFile::modeReadWrite| CFile::typeText);
-	CString filepath=_T("D:\MonitorData/LiveData/");
+	CString filepath=_T("D:/MonitorData/LiveData/");
 	filepath += Dectetor_XML[0].Value;
 	filepath += ".XML";
 	CStdioFile myfile(filepath,CFile::modeCreate|CFile::modeReadWrite| CFile::typeText);

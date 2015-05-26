@@ -17,7 +17,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文(简体，中国) resources
+// Chinese (Simplified, PRC) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
@@ -224,9 +224,9 @@ BEGIN
     EDITTEXT        IDC_HIGHVOLTAGE,71,295,57,14,ES_CENTER | ES_AUTOHSCROLL
     GROUPBOX        "能谱信息",IDC_STATIC,5,330,137,49
     LTEXT           "道数",IDC_STATIC,21,349,29,8
-    LTEXT           "定时采集间隔",IDC_STATIC,21,365,42,8
-    EDITTEXT        IDC_PICKINTERVAL,76,362,37,12,ES_CENTER | ES_AUTOHSCROLL
-    COMBOBOX        IDC_CHANNELNUMBER,76,347,37,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "定时采集间隔",IDC_STATIC,21,365,52,8
+    EDITTEXT        IDC_PICKINTERVAL,81,362,37,12,ES_CENTER | ES_AUTOHSCROLL
+    COMBOBOX        IDC_CHANNELNUMBER,81,347,37,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "有效时间",IDC_STATIC,20,147,35,8
     EDITTEXT        IDC_LIVETIME,71,145,55,14,ES_CENTER | ES_AUTOHSCROLL
     LTEXT           "s",IDC_STATIC,128,147,8,8
@@ -235,6 +235,7 @@ BEGIN
     LTEXT           "Cs137",IDC_STATIC,21,399,29,8
     EDITTEXT        IDC_CsACTIVITY,76,398,37,12,ES_CENTER | ES_AUTOHSCROLL
     LTEXT           "Bq/L",IDC_STATIC,116,399,15,8
+    LTEXT           "min",IDC_STATIC,121,363,13,8
 END
 
 IDD_DIALOG_PROTOCOL DIALOGEX 0, 0, 359, 129
@@ -489,7 +490,7 @@ BEGIN
     ID_RESTART              "清除数据并重新开始\n清除数据"
 END
 
-#endif    // 中文(简体，中国) resources
+#endif    // Chinese (Simplified, PRC) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -505,6 +506,7 @@ END
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
+#include "res\MCA.rc2"  // 非 Microsoft Visual C++ 编辑的资源
 #include "l.CHS\afxres.rc"      // 标准组件
 #include "l.CHS\afxprint.rc"    // 打印/打印预览资源
 #endif
