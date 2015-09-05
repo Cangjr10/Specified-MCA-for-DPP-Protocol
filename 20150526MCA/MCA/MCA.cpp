@@ -262,4 +262,12 @@ void CMCAApp::OnDefineroi()
 		pMCADoc->pDoc_ROIManageing = m_pROIManageDlg;
 	}
 	m_pROIManageDlg->ShowWindow(SW_SHOW);
+
+// 	try{
+// 		throw 0;
+// 	}
+// 	catch(...)
+// 	{
+// 		AfxMessageBox(_T("HEHE£¡£¡"));
+// 	}
 }

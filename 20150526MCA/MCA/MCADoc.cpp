@@ -193,6 +193,7 @@ byte Diagnostic_strat[] = {0xF5 ,0xFA ,0x82 ,0x05 ,0x01 ,0x00};//ÄÜÆ×Êý¾Ý·µ»Ø±êÖ
 byte ACK_OK[] = {0xF5 ,0xFA ,0xFF ,0x00 ,0x00 ,0x00,0xFD ,0x12};//Acknowledge package·µ»Ø±êÖ¾
 void CMCADoc::MSComm_Decode(COleSafeArray safearray_input)
 {
+try{
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	long len = safearray_input.GetOneDimSize();		//Êý¾ÝµÄÓÐÐ§³¤¶È
 	for (long k = 0; k < len; k++)
@@ -366,6 +367,11 @@ void CMCADoc::MSComm_Decode(COleSafeArray safearray_input)
 		}
 		//pFrame->m_SCIModule.SendByte(new_element);
 	}
+	}
+		catch (...)
+		{
+			AfxMessageBox(_T("DATA TRANSFER ERROR£¡"));
+		}
 
 }
 BOOL CMCADoc::Decode_IsMatch(byte newelement,byte* RightKey,UINT KeyNumber)
@@ -522,17 +528,9 @@ BOOL CMCADoc::OnOpenDocument(LPCTSTR lpszPathName)
 		pTotalVIew_temp->Invalidate(FALSE);
 		pDetialVIew_temp->Invalidate(FALSE);
 	}
-	catch (CMemoryException* )
+	catch (...)
 	{
-		AfxMessageBox(_T("²Á£¡"));
-	}
-	catch (CFileException* )
-	{
-		AfxMessageBox(_T("²Á£¡"));
-	}
-	catch (CException* )
-	{
-		AfxMessageBox(_T("²Á£¡"));
+		AfxMessageBox(_T("FILE ERROR£¡"));
 	}
 	return TRUE;
 }
@@ -548,6 +546,7 @@ BOOL CMCADoc::OnSaveDocument(LPCTSTR lpszPathName)
 
 void CMCADoc::SaveXMLFile(void)
 {
+try{
 	int NUMLINES = Dectetor_XML.size();//²ÎÊýÊýÄ¿
 	//´æ´¢XMLÎÄ¼þ
 	//	CStdioFile myfile(lpszPathName,CFile::modeCreate|CFile::modeReadWrite| CFile::typeText);
@@ -702,10 +701,16 @@ void CMCADoc::SaveXMLFile(void)
 	root = _T("</MonitorData>\n");
 	myfile.WriteString(root);
 	myfile.Close();
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("XML SAVE ERROR!"));
+	}
 }
 
 void CMCADoc::SaveSpectrumWithTemperature(CString filepath,CString filename)
 {
+try{
 	CString filepath_total = _T("");
 	filepath_total+=filepath;
 	filepath_total+=filename;
@@ -748,7 +753,11 @@ void CMCADoc::SaveSpectrumWithTemperature(CString filepath,CString filename)
 	myfile.WriteString(_T("<<END_Diagnostic>>"));
 	
 	myfile.Close();
-
+}
+catch(...)
+{
+	AfxMessageBox(_T("TXT SAVE ERROR£¡"));
+}
 }
 
 void CMCADoc::OnFileSaveAs()

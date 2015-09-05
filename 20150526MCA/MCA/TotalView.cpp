@@ -31,7 +31,7 @@ END_MESSAGE_MAP()
 
 void CTotalView::OnDraw(CDC* pDC)
 {
-
+try{
 	CDocument* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	// TODO: 在此添加绘制代码
@@ -61,6 +61,11 @@ void CTotalView::OnDraw(CDC* pDC)
 	CRect rect_text(rect.right-300,rect.top,rect.right-10,rect.top+20);
 	pDC->FillSolidRect(rect_text,RGB(251,249,236));
 	pDC->DrawText(str,rect_text,DT_RIGHT|DT_SINGLELINE|DT_VCENTER);
+}
+catch(...)
+{
+	AfxMessageBox(_T("TOTAL VIEW ERROR！"));
+}
 }
 
 
