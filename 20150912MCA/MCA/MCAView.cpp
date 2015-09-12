@@ -52,11 +52,16 @@ BOOL CMCAView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CMCAView::OnDraw(CDC* /*pDC*/)
 {
+try{
 	CMCADoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-
+}
+catch (...)
+{
+	AfxMessageBox(_T("CMCAView::OnDraw！"));
+}
 	// TODO: 在此处为本机数据添加绘制代码
 }
 

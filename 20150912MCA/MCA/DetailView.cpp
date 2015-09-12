@@ -65,7 +65,7 @@ try{
 }
 catch(...)
 {
-	AfxMessageBox(_T("DETAIL VIEW ERROR！"));
+	AfxMessageBox(_T("CDetailView::OnDraw！"));
 }
 }
 
@@ -92,9 +92,15 @@ void CDetailView::Dump(CDumpContext& dc) const
 
 void CDetailView::OnInitialUpdate()
 {
+	try{
 	CView::OnInitialUpdate();
 	UserPlot_Detail.GetWnd(this); 
 	m_nLButtonDown = FALSE;
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("CDetailView::OnInitialUpdate！"));
+	}
 	// TODO: 在此添加专用代码和/或调用基类
 }
 
@@ -110,7 +116,8 @@ BOOL CDetailView::OnEraseBkgnd(CDC* pDC)
 
 void CDetailView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	try{
+		// TODO: 在此添加消息处理程序代码和/或调用默认值
 	CMCADoc* pMCADoc = (CMCADoc*) m_pDocument;
 	CClientDC dc(this);
 	UserPlot_Detail.SetUserView(&dc);
@@ -129,19 +136,31 @@ void CDetailView::OnLButtonDown(UINT nFlags, CPoint point)
 	dc.FillSolidRect(rect_text,RGB(251,249,236));
 	dc.DrawText(str,rect_text,DT_RIGHT|DT_SINGLELINE|DT_VCENTER);
 	CView::OnLButtonDown(nFlags, point);
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("OnLButtonDown！"));
+	}
 }
 
 
 void CDetailView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
+try{
 	m_nLButtonDown = FALSE;
 	CView::OnLButtonUp(nFlags, point);
+}
+catch(...)
+{
+	AfxMessageBox(_T("OnLButtonUp！"));
+}
 }
 
 
 void CDetailView::OnMouseMove(UINT nFlags, CPoint point)
 {
+	try{
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	CMCADoc* pMCADoc = (CMCADoc*) m_pDocument;
 	if (m_nLButtonDown)
@@ -163,12 +182,18 @@ void CDetailView::OnMouseMove(UINT nFlags, CPoint point)
 		dc.FillSolidRect(rect_text,RGB(251,249,236));
 		dc.DrawText(str,rect_text,DT_RIGHT|DT_SINGLELINE|DT_VCENTER);
 	}
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("OnMouseMove！"));
+	}
 	CView::OnMouseMove(nFlags, point);
 }
 
 
 BOOL CDetailView::PreTranslateMessage(MSG* pMsg)
 {
+	try{
 	// TODO: 在此添加专用代码和/或调用基类
 	CMCADoc* pMCADoc = (CMCADoc*) m_pDocument;
 	CClientDC dc(this);
@@ -210,6 +235,11 @@ BOOL CDetailView::PreTranslateMessage(MSG* pMsg)
 		default:
 			break;
 		}
+	}
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("PreTranslateMessage！"));
 	}
 	return CView::PreTranslateMessage(pMsg);
 }

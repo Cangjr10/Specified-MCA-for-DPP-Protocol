@@ -37,6 +37,7 @@ CMCADoc::CMCADoc()
 	,Channelnumber(2048)
 	,FileCounter(1)
 {
+try{
 	// TODO: 在此添加一次性构造代码
 	pDoc_ROIManageing = NULL;
 	XML_format Dectetor_XML_exam[]=
@@ -69,7 +70,11 @@ CMCADoc::CMCADoc()
 	{
 		Dectetor_XML.push_back(Dectetor_XML_exam[i]);
 	}
-	
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMCADoc::CMCADoc！"));
+}
 }
 
 CMCADoc::~CMCADoc()
@@ -179,6 +184,7 @@ void CMCADoc::Dump(CDumpContext& dc) const
 void CMCADoc::SetTitle(LPCTSTR lpszTitle)
 {
 	// TODO: 在此添加专用代码和/或调用基类
+
 
 	CDocument::SetTitle(_T("MCA"));
 }
@@ -376,6 +382,7 @@ try{
 }
 BOOL CMCADoc::Decode_IsMatch(byte newelement,byte* RightKey,UINT KeyNumber)
 {
+try{
 	static vector<byte> Key; 
 	//转换RightKey格式以方便比较
 	vector<byte>_RightKey;
@@ -415,6 +422,11 @@ BOOL CMCADoc::Decode_IsMatch(byte newelement,byte* RightKey,UINT KeyNumber)
 	}
 	else
 		return FALSE;
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMCADoc::CMCADoc！"));
+}
 }
 
 
@@ -530,7 +542,7 @@ BOOL CMCADoc::OnOpenDocument(LPCTSTR lpszPathName)
 	}
 	catch (...)
 	{
-		AfxMessageBox(_T("FILE ERROR！"));
+		AfxMessageBox(_T("CMCADoc::Decode_IsMatch！"));
 	}
 	return TRUE;
 }
@@ -763,6 +775,7 @@ catch(...)
 void CMCADoc::OnFileSaveAs()
 {
 	// TODO: 在此添加命令处理程序代码
+try{
 	SaveXMLFile();//保存XML文件
 	CFileDialog dlg(
 		FALSE,
@@ -831,4 +844,9 @@ void CMCADoc::OnFileSaveAs()
 	{
 
 	}
+}
+catch (...)
+{
+	AfxMessageBox(_T("CMCADoc::OnFileSaveAs！"));
+}
 }

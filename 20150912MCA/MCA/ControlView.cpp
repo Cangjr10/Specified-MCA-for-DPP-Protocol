@@ -39,7 +39,9 @@ CControlView::~CControlView()
 
 void CControlView::DoDataExchange(CDataExchange* pDX)
 {
-	CFormView::DoDataExchange(pDX);
+	try
+	{
+		CFormView::DoDataExchange(pDX);
 	//DDX_Control(pDX, IDC_TREE_INFO, m_TreeCtr);
 	DDX_Text(pDX, IDC_DEVICEID, m_nDeviceID);
 	DDX_Text(pDX, IDC_DEVICETYPE, m_nDeviceType);
@@ -56,6 +58,11 @@ void CControlView::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_ACCTIME, m_nAccTime);
 	DDX_Text(pDX, IDC_LIVETIME, m_nLiveTime);
 	DDX_Text(pDX, IDC_CsACTIVITY, m_nActivity_Cs137);
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("CControlView::DoDataExchange!"));
+	}
 }
 
 BEGIN_MESSAGE_MAP(CControlView, CFormView)
@@ -86,6 +93,7 @@ void CControlView::Dump(CDumpContext& dc) const
 
 void CControlView::OnInitialUpdate()
 {
+	try{
 	CFormView::OnInitialUpdate();
 	Str_ChannelNumber.resize(0);
 	Str_ChannelNumber.push_back(_T("1024"));
@@ -99,6 +107,11 @@ void CControlView::OnInitialUpdate()
 	}
 	m_nChannemNumber = 1;
 	UpdateData(FALSE);
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("OnCbnSelendokChannelnumber！"));
+	}
 // 	m_TreeCtr.DeleteAllItems();
 // 	m_TreeCtr.SetBkColor(RGB(240,240,240));
 // 	CFont m_newFont;
@@ -135,6 +148,7 @@ void CControlView::OnInitialUpdate()
 void CControlView::OnCbnSelendokChannelnumber()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	try{
 	CMCADoc* pMCADoc = (CMCADoc*)m_pDocument;
 	UpdateData(TRUE);
 	UINT32 temp = pMCADoc->GetSpectrumChannel();
@@ -150,6 +164,11 @@ void CControlView::OnCbnSelendokChannelnumber()
 		pMCADoc->SetSpectruumChannel(8192); break;
 	default:
 		break;
+	}
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("OnCbnSelendokChannelnumber！"));
 	}
 }
 

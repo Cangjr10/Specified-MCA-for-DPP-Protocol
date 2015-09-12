@@ -52,6 +52,8 @@ CMainFrame::~CMainFrame()
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
+
+try{
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
@@ -92,6 +94,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 // 	EnableDocking(CBRS_ALIGN_ANY);
 // 	DockControlBar(&m_wndToolBar);
 	m_SCIModule.Create(NULL, WS_VISIBLE | WS_CHILD, CRect(0,0,0,0),this, ID_COMMCTRL);
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnCreate！"));
+}
 	return 0;
 }
 
@@ -100,6 +107,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	CCreateContext* pContext)
 {
+try{
 	//创建左右拆分窗口
 	VERIFY(m_wndSplitter.CreateStatic(this, 1, 2,WS_CHILD|WS_VISIBLE,AFX_IDW_PANE_FIRST));
 	//创建左窗口视图并获取指针
@@ -120,17 +128,27 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	pTotalVIew = (CTotalView*)m_wndSplitter_VIEW.GetPane(1,0);
 	m_ViewCreated = TRUE;
 	SetTimer(100,300,NULL);//过一段时间显示通讯配置界面
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnCreateClient！"));
+}
 	return TRUE;
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
+try{
 	if( !CFrameWnd::PreCreateWindow(cs) )
 		return FALSE;
 	// TODO: 在此处通过修改
 	//  CREATESTRUCT cs 来修改窗口类或样式
 	//cs.style |= WS_MAXIMIZE;
-
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::PreCreateWindow！"));
+}
 	return TRUE;
 }
 
@@ -155,6 +173,7 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
+try{
 	CFrameWnd::OnSize(nType, cx, cy);
 	CRect rect;
 	GetClientRect(&rect);
@@ -163,11 +182,17 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 		m_wndSplitter_VIEW.SetRowInfo(0,(rect.bottom-rect.top)*2/3,1);
 		m_wndSplitter_VIEW.RecalcLayout();
 	}
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnSize！"));
+}
 	// TODO: 在此处添加消息处理程序代码
 }
 //串口响应函数
 void CMainFrame::OnComm()
 {
+try{
 	CMCADoc* pMCADoc;
 	pMCADoc = (CMCADoc*)GetActiveDocument();
 	VARIANT variant_input;
@@ -178,6 +203,11 @@ void CMainFrame::OnComm()
 		safearray_input=variant_input;//variant数据转换成colesafearray型变量
 		pMCADoc->MSComm_Decode(safearray_input);//将数据转移至文档类进行处理
 	}
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnComm！"));
+}
 
 }
 
@@ -186,6 +216,7 @@ void CMainFrame::OnComm()
 
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)													
 {
+try{
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	if(nIDEvent == 100)
 	{
@@ -202,7 +233,11 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 // 		KillTimer(nIDEvent);//能谱数据获取完毕，进行温度获取
 // 		OnDiagnostic();
 // 	}
-	
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnTimer！"));
+}
 	CFrameWnd::OnTimer(nIDEvent);
 }
 
@@ -215,6 +250,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 byte DataDownload[] = {0xF5, 0xFA, 0x02, 0x03, 0x00, 0x00, 0xFE, 0x0C};//能谱数据获取请求
 void CMainFrame::OnMcaDownload()
 {
+try{
 	// TODO: 在此添加命令处理程序代码
 	pControlView->UpdateData(TRUE);//获取更新信息
 	if (m_SCIModule.get_PortOpen())
@@ -225,6 +261,11 @@ void CMainFrame::OnMcaDownload()
 	CMCADoc* pMCADoc;
 	pMCADoc = (CMCADoc*)GetActiveDocument();
 	pMCADoc->SetCommandFlag(S_Download);
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnMcaDownload！"));
+}
 	//pMCADoc->SaveSpectrumWithTemperature(_T("E:\\"),_T("1"));
 	//pMCADoc->SaveXMLFile();
 	//OnRestart();
@@ -235,6 +276,7 @@ void CMainFrame::OnMcaDownload()
 byte RequestDiagnostic[] = {0xF5, 0xFA, 0x03, 0x05, 0x00, 0x00, 0xFE, 0x09};//寻找设备信息的起始标志
 void CMainFrame::OnDiagnostic()
 {
+try{
 	// TODO: 在此添加命令处理程序代码
 	if (m_SCIModule.get_PortOpen())
 	{
@@ -245,10 +287,16 @@ void CMainFrame::OnDiagnostic()
 	pMCADoc = (CMCADoc*)GetActiveDocument();
 	pMCADoc->SetCommandFlag(S_Diagnostic);
 }
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnDiagnostic！"));
+}
+}
 
 byte ClearSpectrum[] = {0xF5, 0xFA, 0xF0, 0x01, 0x00, 0x00, 0xFD, 0x20};//Clear Spectrum
 void CMainFrame::OnRestart()//更新开始时间
 {
+try{
 	// TODO: 在此添加命令处理程序代码
 	if (m_SCIModule.get_PortOpen())
 	{
@@ -259,20 +307,32 @@ void CMainFrame::OnRestart()//更新开始时间
 	pMCADoc = (CMCADoc*)GetActiveDocument();
 	pMCADoc->SetCommandFlag(S_Restart);
 }
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnRestart！"));
+}
+}
 
 byte Pause_Command[] ={0xF5, 0xFA, 0xF0, 0x03, 0x00, 0x00, 0xFD, 0x1E};
 void CMainFrame::OnPause()
 {
+try{
 	// TODO: 在此添加命令处理程序代码
 	m_SCIModule.SendArray(Pause_Command,sizeof(Pause_Command));
 	//设置CommandFlag标志
 	CMCADoc* pMCADoc = (CMCADoc*)GetActiveDocument();
 	pMCADoc->SetCommandFlag(S_Pause);
 }
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnPause！"));
+}
+}
 
 byte Start_Command[] ={0xF5, 0xFA, 0xF0, 0x02, 0x00, 0x00, 0xFD, 0x1F};
 void CMainFrame::OnStart()
 {
+try{
 	// TODO: 在此添加命令处理程序代码
 	m_SCIModule.SendArray(Start_Command,sizeof(Start_Command));
 	//设置CommandFlag标志
@@ -286,7 +346,12 @@ void CMainFrame::OnStart()
 		pControlView_temp->m_nPickInterval = 2;
 		pControlView_temp->UpdateData(FALSE);
 	}
-	interval = (pControlView_temp->m_nPickInterval)*60*1000;
+	interval = (UINT32)((pControlView_temp->m_nPickInterval)*60*1000);
 	SetTimer(1,interval,NULL);//定时存储能谱
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMainFrame::OnStart！"));
+}
 	
 }

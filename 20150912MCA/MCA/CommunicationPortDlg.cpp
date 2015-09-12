@@ -61,6 +61,7 @@ END_MESSAGE_MAP()
 
 BOOL CCommunicationPortDlg::OnInitDialog()
 {
+	try{
 	CDialogEx::OnInitDialog();
 	CString str;
 	for (int i=1;i<25;i++)
@@ -102,6 +103,11 @@ BOOL CCommunicationPortDlg::OnInitDialog()
 	CMCADoc* pMCADoc = (CMCADoc*)pFrame->GetActiveDocument();
 	pMCADoc->UpdateCommunicationDlgInfo(m_nCommDlg,m_nBaudrateDlg,m_nTimeRequestDlg,FALSE);
 	UpdateData(FALSE);
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("CCommunicationPortDlg::OnInitDialog!"));
+	}
 	return TRUE;
 	// 异常: OCX 属性页应返回 FALSE
 }
@@ -118,6 +124,7 @@ void CCommunicationPortDlg::OnBnClickedButtonSetdefaulttime()
 void CCommunicationPortDlg::OnBnClickedButtonOpenport()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	try{
 	UpdateData(TRUE);
 	CString Com_Config=_T("");
 	Com_Config += str_baudrate[m_nBaudrateDlg];
@@ -146,17 +153,28 @@ void CCommunicationPortDlg::OnBnClickedButtonOpenport()
 		m_nPortFlag = FALSE;
 		SetDlgItemTextW(IDC_BUTTON_OpenPort,_T("Open Port"));
 	}
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("CCommunicationPortDlg::OnBnClickedButtonOpenport!"));
+	}
 }
 
 
 void CCommunicationPortDlg::OnBnClickedButtonFinddevice()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	try{
 		byte Connect_Command[] ={0xF5, 0xFA, 0x03, 0x07, 0x00, 0x00, 0xFE, 0x07};
 		pFrame->m_SCIModule.SendArray(Connect_Command,sizeof(Connect_Command));
 		//设置CommandFlag标志
 		CMCADoc* pDoc = (CMCADoc*)pFrame->GetActiveDocument();
 		pDoc->SetCommandFlag(S_Connection);
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("CCommunicationPortDlg::OnBnClickedButtonFinddevice!"));
+	}
 /*		pDoc->UpdateCommunicationDlgInfo(m_nCommDlg , m_nBaudrateDlg, m_nTimeRequestDlg,TRUE);*/
 }
 
@@ -164,9 +182,15 @@ void CCommunicationPortDlg::OnBnClickedConnect()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	//保存串口配置信息
+	try{
 	UpdateData(TRUE);
 	CMCADoc* pDoc = (CMCADoc*)pFrame->GetActiveDocument();
 	pDoc->UpdateCommunicationDlgInfo(m_nCommDlg , m_nBaudrateDlg, m_nTimeRequestDlg,TRUE);
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("CCommunicationPortDlg::OnBnClickedConnect!"));
+	}
 	CDialogEx::OnOK();
 }
 
@@ -175,6 +199,7 @@ void CCommunicationPortDlg::OnBnClickedConnect()
 void CCommunicationPortDlg::OnBnClickedCancel()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	try{
 	if (pFrame->m_SCIModule.get_PortOpen())
 	{
 		pFrame->m_SCIModule.put_PortOpen(0);//关闭串口
@@ -183,5 +208,10 @@ void CCommunicationPortDlg::OnBnClickedCancel()
 	CMCADoc* pDoc = (CMCADoc*)pFrame->GetActiveDocument();
 	pDoc->UpdateCommunicationDlgInfo(m_nCommDlg , m_nBaudrateDlg, m_nTimeRequestDlg,TRUE);
 	m_nPortFlag = FALSE;
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("CCommunicationPortDlg::OnBnClickedCancel!"));
+	}
 	CDialogEx::OnCancel();
 }

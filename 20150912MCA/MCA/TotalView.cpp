@@ -90,6 +90,7 @@ void CTotalView::Dump(CDumpContext& dc) const
 
 void CTotalView::OnLButtonDown(UINT nFlags, CPoint point)
 {
+try{
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	CMCADoc* pMCADoc = (CMCADoc*) m_pDocument;
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
@@ -122,18 +123,30 @@ void CTotalView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	CView::OnLButtonDown(nFlags, point);
 }
+catch (...)
+{
+	AfxMessageBox(_T("CTotalView::OnLButtonDown！"));
+}
+}
 
 
 void CTotalView::OnLButtonUp(UINT nFlags, CPoint point)
 {
+try{
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	m_nLButtonDown = FALSE;
 	CView::OnLButtonUp(nFlags, point);
+}
+catch (...)
+{
+	AfxMessageBox(_T("CTotalView::OnLButtonUp！"));
+}
 }
 
 
 void CTotalView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
+try{
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	static BOOL ROI_LeftFlag = FALSE;
 	static UINT ROI_LEFT = 0,ROI_Right = 0;
@@ -186,15 +199,26 @@ void CTotalView::OnLButtonDblClk(UINT nFlags, CPoint point)
 	
 	CView::OnLButtonDblClk(nFlags, point);
 }
+catch (...)
+{
+	AfxMessageBox(_T("CTotalView::OnLButtonDblClk！"));
+}
+}
 
 
 void CTotalView::OnInitialUpdate()
 {
+try{
 	CView::OnInitialUpdate();
 
 	// TODO: 在此添加专用代码和/或调用基类
 	UserPlot_Total.GetWnd(this);  
 	m_nLButtonDown = FALSE;
+}
+catch (...)
+{
+	AfxMessageBox(_T("CTotalView::OnInitialUpdate！"));
+}
 }
 
 
@@ -209,6 +233,7 @@ BOOL CTotalView::OnEraseBkgnd(CDC* pDC)
 
 void CTotalView::OnMouseMove(UINT nFlags, CPoint point)
 {
+try{
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	CMCADoc* pMCADoc = (CMCADoc*) m_pDocument;
 	if (m_nLButtonDown)
@@ -231,10 +256,16 @@ void CTotalView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	CView::OnMouseMove(nFlags, point);
 }
+catch (...)
+{
+	AfxMessageBox(_T("CTotalView::OnMouseMove！"));
+}
+}
 
 
 BOOL CTotalView::PreTranslateMessage(MSG* pMsg)
 {
+try{
 	// TODO: 在此添加专用代码和/或调用基类
 	CMCADoc* pMCADoc = (CMCADoc*) m_pDocument;
 	CClientDC dc(this);
@@ -278,4 +309,9 @@ BOOL CTotalView::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 	return CView::PreTranslateMessage(pMsg);
+}
+catch (...)
+{
+	AfxMessageBox(_T("CTotalView::PreTranslateMessage！"));
+}
 }

@@ -41,6 +41,7 @@ END_MESSAGE_MAP()
 
 CMCAApp::CMCAApp()
 {
+try{
 	// 支持重新启动管理器
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_ALL_ASPECTS;
 #ifdef _MANAGED
@@ -58,6 +59,11 @@ CMCAApp::CMCAApp()
 	// 将所有重要的初始化放置在 InitInstance 中
 	m_pROIManageDlg = NULL;
 }
+catch(...)
+{
+	AfxMessageBox(_T("CMCAApp::CMCAApp！"));
+}
+}
 
 // 唯一的一个 CMCAApp 对象
 
@@ -68,6 +74,7 @@ CMCAApp theApp;
 
 BOOL CMCAApp::InitInstance()
 {
+try{
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
 	//则需要 InitCommonControlsEx()。否则，将无法创建窗口。
@@ -134,14 +141,24 @@ BOOL CMCAApp::InitInstance()
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	//m_pMainWnd->ShowWindow(SW_SHOWMAXIMIZED);
 	m_pMainWnd->UpdateWindow();
-	return TRUE;
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMCAApp::InitInstance！"));
+}
+return TRUE;
 }
 
 int CMCAApp::ExitInstance()
 {
 	//TODO: 处理可能已添加的附加资源
+	try{
 	AfxOleTerm(FALSE);
-
+	}
+	catch(...)
+	{
+		AfxMessageBox(_T("CMCAApp::ExitInstance！"));
+	}
 	return CWinApp::ExitInstance();
 }
 
@@ -198,9 +215,15 @@ void CMCAApp::OnAppAbout()
 
 void CMCAApp::OnMcaConnect()
 {
+try{
 	// TODO: 在此添加命令处理程序代码
 	CCommunicationPortDlg	CommunicationPortDlg;
 	CommunicationPortDlg.DoModal();
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMCAApp::OnMcaConnect！"));
+}
 }
 
 
@@ -247,6 +270,7 @@ void CAboutDlg::OnBnClickedOk()
 
 void CMCAApp::OnDefineroi()
 {
+try{
 	// TODO: 在此添加命令处理程序代码
 	CMainFrame* pFrame = (CMainFrame*)m_pMainWnd;
 	CMCADoc* pMCADoc = (CMCADoc*)pFrame->GetActiveDocument();
@@ -262,7 +286,11 @@ void CMCAApp::OnDefineroi()
 		pMCADoc->pDoc_ROIManageing = m_pROIManageDlg;
 	}
 	m_pROIManageDlg->ShowWindow(SW_SHOW);
-
+}
+catch(...)
+{
+	AfxMessageBox(_T("CMCAApp::OnDefineroi！"));
+}
 // 	try{
 // 		throw 0;
 // 	}

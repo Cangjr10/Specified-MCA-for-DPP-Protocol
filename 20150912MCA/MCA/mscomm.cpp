@@ -18,16 +18,28 @@ IMPLEMENT_DYNCREATE(CMscomm, CWnd)
 // CMscomm  Ù–‘
 void CMscomm::SendByte(byte single_byte)
 {
+try{
 	CByteArray byte_to_be_send ;
 	byte_to_be_send.Add(single_byte);
 	put_Output(COleVariant(byte_to_be_send));
 }
+catch (...)
+{
+	AfxMessageBox(_T("CMscomm::SendByte£°"));
+}
+}
 void CMscomm::SendArray(byte* array_byte,UINT n)
 {
+try{
 	for (UINT i = 0;i < n; i++)
 	{
 		SendByte(array_byte[i]);
 	}
+}
+catch (...)
+{
+	AfxMessageBox(_T("CMscomm::SendArray£°"));
+}
 }
 /////////////////////////////////////////////////////////////////////////////
 // CMscomm ≤Ÿ◊˜

@@ -47,6 +47,7 @@ END_MESSAGE_MAP()
 
 void CROIManaging::OnBnClickedRoiAdd()
 {
+try{
 	// TODO: 在此添加控件通知处理程序代码
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CMCADoc* pDoc = (CMCADoc*)pFrame->GetActiveDocument();
@@ -73,10 +74,16 @@ void CROIManaging::OnBnClickedRoiAdd()
 	else
 		AfxMessageBox(_T("Inavalid ROI!"));
 }
+catch (...)
+{
+	AfxMessageBox(_T("CROIManaging::OnBnClickedRoiAdd！"));
+}
+}
 
 
 void CROIManaging::OnBnClickedRoiRemove()
 {
+try{
 	// TODO: 在此添加控件通知处理程序代码
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CMCADoc* pDoc = (CMCADoc*)pFrame->GetActiveDocument();
@@ -91,10 +98,16 @@ void CROIManaging::OnBnClickedRoiRemove()
 	else
 		MessageBox(_T("没有选择列表框活列表框操作失败！"));
 }
+catch (...)
+{
+	AfxMessageBox(_T("CROIManaging::OnBnClickedRoiRemove！"));
+}
+}
 
 
 void CROIManaging::OnSelchangeROIList()
 {
+try{
 	// TODO: 在此添加控件通知处理程序代码
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CMCADoc* pDoc = (CMCADoc*)pFrame->GetActiveDocument();
@@ -111,19 +124,32 @@ void CROIManaging::OnSelchangeROIList()
 		pDetailViewTemp->Invalidate(FALSE);
 	}
 }
+catch (...)
+{
+	AfxMessageBox(_T("CROIManaging::OnSelchangeROIList！"));
+
+}
+}
 
 
 void CROIManaging::OnBnClickedRoiReplace()
 {
+try{
 	// TODO: 在此添加控件通知处理程序代码
 	OnBnClickedRoiRemove();
 	UpdateData(TRUE);
 	OnBnClickedRoiAdd();
 }
+catch (...)
+{
+	AfxMessageBox(_T("CROIManaging::OnBnClickedRoiReplace！"));
+}
+}
 
 
 void CROIManaging::OnBnClickedRoiRemoveall()
 {
+try{
 	// TODO: 在此添加控件通知处理程序代码
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CMCADoc* pDoc = (CMCADoc*)pFrame->GetActiveDocument();
@@ -134,10 +160,16 @@ void CROIManaging::OnBnClickedRoiRemoveall()
 	UpdateData(FALSE);
 	pDoc->UpdateAllViews(NULL);
 }
+catch (...)
+{
+	AfxMessageBox(_T("CROIManaging::OnBnClickedRoiRemoveall！"));
+}
+}
 
 
 BOOL CROIManaging::OnInitDialog()
 {
+try{
 	CDialogEx::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
@@ -161,5 +193,11 @@ BOOL CROIManaging::OnInitDialog()
 		UpdateData(FALSE);
 	}
 	return TRUE;  // return TRUE unless you set the focus to a control
+}
+catch (...)
+{
+	AfxMessageBox(_T("CROIManaging::OnInitDialog！"));
+}
+return TRUE;
 	// 异常: OCX 属性页应返回 FALSE
 }

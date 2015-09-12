@@ -3,6 +3,7 @@
 
 void CUserPlot::SetUserView(CDC* MemDC)
 {
+try{
 	MemDC->SaveDC();
 	pWnd->GetClientRect(&rect_view);//获取最新矩形区域
 	Origin.SetPoint(rect_view.left+50,rect_view.bottom-20);//窗口OnSize保证有足够的大小
@@ -16,20 +17,38 @@ void CUserPlot::SetUserView(CDC* MemDC)
 	MemDC->SetWindowExt(View_Xrange,-View_Yrange);
 	UserViewFlag = TRUE;
 }
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::SetUserView！"));
+}
+}
 void CUserPlot::SetDefaultView(CDC* MemDC)
 {
+try{
 	if(UserViewFlag)
 		MemDC->RestoreDC(-1);
 }
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::SetDefaultView！"));
+}
+}
 void CUserPlot::SetAxis(double _AxisX1 /* = 0 */,double _AxisX2/* =8192 */,double _AxisY1/* =0 */,double _AxisY2/* =256 */)
 {
+try{
 	AxisX1 = _AxisX1;
 	AxisX2 = _AxisX2; 
 	AxisY1 = _AxisY1; 
 	AxisY2 = _AxisY2;
 }
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::SetAxis！"));
+}
+}
 void CUserPlot::DrawAxis(CDC* MemDC,CSpectrum& spectrum)
 {
+try{
 	pWnd->GetClientRect(&rect_view);//获取最新矩形区域
 	if ((rect_view.right-rect_view.left)>100 && (rect_view.bottom-rect_view.top) > 100)
 	{
@@ -96,11 +115,16 @@ void CUserPlot::DrawAxis(CDC* MemDC,CSpectrum& spectrum)
 		MemDC->SelectObject(PenOld);
 		PenNew.DeleteObject();
 	}
-
+}
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::DrawAxis！"));
+}
 }
 
 void CUserPlot::SetPoint(CDC* MemDC,double _x,double _y,COLORREF _color/* = RGB(0,0,0)*/,int _radius/* = 6 */)
 {
+try{
 	pWnd->GetClientRect(&rect_view);//获取最新矩形区域
 	double X_radius = _radius*View_Xrange/(rect_view.right-rect_view.left);//_radius个像素点宽度
 	double Y_radius = _radius*View_Yrange/(rect_view.bottom-rect_view.top);//_radius个像素点宽度
@@ -112,31 +136,67 @@ void CUserPlot::SetPoint(CDC* MemDC,double _x,double _y,COLORREF _color/* = RGB(
 	if ( (int)_x > AxisX1 && (int)_x < AxisX2 && (int)_y < AxisY2 && (int)_y > AxisY1)
 		MemDC->Ellipse(&BoardRect);
 }
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::SetPoint！"));
+}
+}
 CPoint CUserPlot::UserPointToLogical(double x, double y)
 {
+try{
 	CPoint point;
 	point.x = (int)((x - AxisX1)/(AxisX2 - AxisX1)*View_Xrange);
 	point.y = (int)((y - AxisY1)/(AxisY2 - AxisY1)*View_Yrange);
 	return point;
 }
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::UserPointToLogical！"));
+}
+}
 int CUserPlot::UserXToLogical(double x)
 {
+try{
 	return (int)((x - AxisX1)/(AxisX2 - AxisX1)*View_Xrange);
+}
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::UserXToLogical！"));
+}
 }
 int CUserPlot::UserYToLogical(double y)
 {
+try{
 	return (int)((y - AxisY1)/(AxisY2 - AxisY1)*View_Yrange);
+}
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::UserYToLogical！"));
+}
 }
 double CUserPlot::WindowsXToAxis(int x)
 {
+try{
 	return double(x-Origin.x)/(Extent.x-Origin.x)*(AxisX2-AxisX1)+AxisX1;
+}
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::WindowsXToAxis！"));
+}
 }
 double CUserPlot::WindowsYToAxis(int y)
 {
+try{
 	return double(Origin.y-y)/(Origin.y-Extent.y)*(AxisY2-AxisY1)+AxisY1;
+}
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::WindowsYToAxis！"));
+}
 }
 void CUserPlot::PlotSpectrum(CDC* pDC,CSpectrum& spectrum, COLORREF _bkgcolor,COLORREF _lineColor)
 {
+try{
 	//双缓存绘图，防止闪烁
 	CDC MemDC; //首先定义一个显示设备对象  
 	CBitmap MemBitmap;//定义一个位图对象
@@ -184,8 +244,14 @@ void CUserPlot::PlotSpectrum(CDC* pDC,CSpectrum& spectrum, COLORREF _bkgcolor,CO
 	MemBitmap.DeleteObject();  
 	MemDC.DeleteDC();
 }
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::PlotSpectrum！"));
+}
+}
 void CUserPlot::BarSpectrum(CDC* pDC,CSpectrum& spectrum, COLORREF _bkgcolor,COLORREF _SpectrumColor,COLORREF _ROIColor)
 {
+try{
 	//双缓存绘图，防止闪烁
 	CDC MemDC; //首先定义一个显示设备对象  
 	CBitmap MemBitmap;//定义一个位图对象
@@ -269,8 +335,15 @@ void CUserPlot::BarSpectrum(CDC* pDC,CSpectrum& spectrum, COLORREF _bkgcolor,COL
 	MemBitmap.DeleteObject();  
 	MemDC.DeleteDC();
 }
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::BarSpectrum！"));
+}
+}
 void CUserPlot::DrawVerticleLine(CDC* MemDC,double newCursor)
 {
+try{
+
 // 	CPen *Penold, PenNew;
 // 	PenNew.CreatePen(PS_SOLID,2,RGB(255,0,0));
 // 	Penold = MemDC->SelectObject(&PenNew);
@@ -305,4 +378,9 @@ void CUserPlot::DrawVerticleLine(CDC* MemDC,double newCursor)
 	}
 // 	MemDC->SelectObject(Penold);
 // 	PenNew.DeleteObject();
+}
+catch (...)
+{
+	AfxMessageBox(_T("CUserPlot::DrawVerticleLine！"));
+}
 }
